@@ -28,12 +28,3 @@ export default defineComponent({
   }
 });
 </script>
-
-<style scoped lang="scss">
-.wrapper__info {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  column-gap: 15px;
-}
-</style>

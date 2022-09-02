@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div class="header">
+    <div class="settings__header">
       <h1>Settings</h1>
       <svg
         @click="$emit('update:modelValue', false)"
@@ -25,7 +25,7 @@
         </g>
       </svg>
     </div>
-    <CityList class="city-list" :cities="cities" />
+    <CityList class="settings__city-list" :cities="cities" />
     <AddLocation />
   </section>
 </template>
@@ -51,27 +51,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style scoped lang="scss">
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-
-  h1 {
-    font-size: 18px;
-  }
-}
-
-.icon {
-  cursor: pointer;
-}
-
-.city-list {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  margin-bottom: 40px;
-}
-</style>

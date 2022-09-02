@@ -1,12 +1,12 @@
 <template>
   <form @submit.prevent="">
     <label class="add-location">
-      <span class="title">Add Location:</span>
-      <div class="inner">
-        <app-input v-model="name" @keyup.enter="handleAddLocation" />
+      <span class="add-location__title">Add Location:</span>
+      <div class="add-location__inner">
+        <AppInput v-model="name" @keyup.enter="handleAddLocation" />
         <svg
           @click="handleAddLocation"
-          class="icon"
+          class="add-location__icon"
           version="1.1"
           id="Layer_1"
           xmlns="http://www.w3.org/2000/svg"
@@ -48,9 +48,11 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import AppInput from "./UI/AppInput.vue";
 
 export default defineComponent({
   name: "AddLocation",
+  components: { AppInput },
   data() {
     return {
       name: "",
@@ -63,30 +65,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style lang="scss" scoped>
-.inner {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding-right: 5px;
-}
-
-.icon {
-  height: 21px;
-  width: 21px;
-  fill: black;
-  cursor: pointer;
-}
-
-.title {
-  font-size: 16px;
-  color: black;
-}
-
-.add-location {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-</style>

@@ -17,7 +17,7 @@ import HeaderOptions from "./components/HeaderOptions.vue";
 import Settings from "./components/Settings.vue";
 
 export default defineComponent({
-  name: "App",
+  name: "weather-widget",
   components: { Settings, Weather, HeaderOptions },
   data() {
     return {
@@ -117,7 +117,7 @@ export default defineComponent({
       ] as cityWeather[],
       citiesGeo: [] as cityGeo[],
       checkStorage: false,
-      isSetting: false,
+      isSetting: true,
     };
   },
   mounted() {
@@ -181,6 +181,37 @@ export default defineComponent({
   justify-content: center;
   align-items: center;
   gap: 15px;
+
+  &__header {
+    width: 100%;
+    padding: 10px;
+    padding-top: 0px;
+    padding-right: 0px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &__weather {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  &__celcius {
+    gap: 0px;
+    height: 100px;
+  }
+
+  &__info {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    column-gap: 15px;
+  }
+
+  &__wind {
+    gap: 4px;
+    font-size: 14px;
+  }
 }
 
 .capitalize {
@@ -190,5 +221,158 @@ export default defineComponent({
 svg {
   fill: grey;
   flex-shrink: 0;
+}
+
+.icon {
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
+
+  &__options {
+    transition: transform 0.3s;
+
+    &:hover {
+      transform: rotate(90deg);
+      transition: transform 0.3s;
+    }
+  }
+
+  &__info {
+    height: 16px;
+    width: 16px;
+    fill: black;
+  }
+
+  &__menu {
+    transition: transform 0.3s;
+    &:hover {
+      transform: rotate(90deg);
+      transition: transform 0.3s;
+    }
+  }
+
+  &__basket {
+    transition: fill 0.3s;
+    &:hover {
+      fill: red;
+      transition: fill 0.3s;
+    }
+  }
+}
+
+.card {
+  min-width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background-color: lightcyan;
+  border-radius: 10px;
+  padding: 10px;
+
+  &__title {
+    font-weight: 900;
+    font-size: 18px;
+    text-align: left;
+    color: black;
+  }
+
+  &__temp {
+    font-size: 32px;
+    color: black;
+  }
+
+  &__text {
+    color: dimgray;
+    font-size: 14px;
+  }
+}
+
+.direction {
+  transform: rotate(-90deg);
+}
+
+.settings {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+
+    h1 {
+      font-size: 18px;
+    }
+  }
+
+  &__city-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+}
+
+.city-item {
+  padding: 10px 7px;
+  border-radius: 2px;
+  background-color: #f7f7f7;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &__icon {
+    height: 15px;
+    width: 15px;
+    cursor: pointer;
+  }
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &__text {
+    color: black;
+    font-size: 14px;
+  }
+}
+
+.add-location {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  &__icon {
+    height: 21px;
+    width: 21px;
+    fill: black;
+    cursor: pointer;
+  }
+
+  &__title {
+    font-size: 16px;
+    color: black;
+  }
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding-right: 5px;
+  }
+}
+
+.input {
+  outline: none;
+  width: 100%;
+  border: 1px solid grey;
+  padding: 6px;
+  color: black;
+  border-radius: 3px;
+  background: white;
+
+  &:focus {
+    border: 1px solid rgb(64, 168, 202);
+  }
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
-  <div class="weather">
-    <weather-card v-for="city of citiesWeather" :key="city.id" :city="city" />
+  <div class="wrapper__weather">
+    <WeatherCard v-for="city of citiesWeather" :key="city.id" :city="city" />
   </div>
 </template>
 
@@ -17,11 +17,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style scoped lang="scss">
-  .weather {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-</style>

@@ -1,8 +1,8 @@
 <template>
-  <div class="container">
+  <div class="wrapper__header">
     <svg
       @click="changeMode"
-      class="icon"
+      class="icon icon__options"
       version="1.1"
       id="Capa_1"
       xmlns="http://www.w3.org/2000/svg"
@@ -76,25 +76,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style scoped lang="scss">
-.container {
-  width: 100%;
-  padding: 10px;
-  padding-top: 0px;
-  padding-right: 0px;
-  display: flex;
-  justify-content: flex-end;
-}
-.icon {
-  height: 20px;
-  width: 20px;
-  cursor: pointer;
-  transition: transform 0.3s;
-
-  &:hover {
-    transform: rotate(180deg);
-    transition: transform 0.3s;
-  }
-}
-</style>

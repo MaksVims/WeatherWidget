@@ -1,9 +1,9 @@
 <template>
   <div>
     <article v-for="city of cities" :key="city.id" class="city-item">
-      <div class="inner">
+      <div class="city-item__inner">
         <svg
-          class="icon menu"
+          class="city-item__icon icon__menu"
           version="1.1"
           id="Capa_1"
           xmlns="http://www.w3.org/2000/svg"
@@ -55,7 +55,7 @@
         <span class="text">{{ city.name }}, {{ city.sys.country }}</span>
       </div>
       <svg
-        class="icon basket"
+        class="city-item__icon icon__basket"
         width="15px"
         height="15px"
         viewBox="0 0 15 15"
@@ -85,49 +85,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style lang="scss" scoped>
-.city-item {
-  padding: 10px 7px;
-  border-radius: 2px;
-  background-color: #f7f7f7;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.icon {
-  height: 15px;
-  width: 15px;
-}
-
-.text {
-  color: black;
-  font-size: 14px;
-}
-
-.inner {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.menu, .basket {
-  cursor: pointer;
-}
-.menu {
-  transition: transform .3s;
-  &:hover {
-    transform: rotate(90deg);
-    transition: transform .3s;
-  }
-}
-
-.basket {
-  transition: fill .3s;
-  &:hover {
-    fill: red;
-    transition: fill .3s;
-  }
-}
-</style>

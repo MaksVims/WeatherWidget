@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div class="wrapper wrapper__wind">
       <svg
-        class="icon direction"
+        class="icon__info direction"
         version="1.1"
         id="Capa_1"
         xmlns="http://www.w3.org/2000/svg"
@@ -42,7 +42,7 @@
     </div>
     <div class="wrapper wrapper__wind">
       <svg
-        class="icon"
+        class="icon__info"
         version="1.1"
         id="Layer_1"
         xmlns="http://www.w3.org/2000/svg"
@@ -133,22 +133,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style lang="scss" scoped>
-.icon {
-  height: 16px;
-  width: 16px;
-  fill: black;
-}
-
-.direction {
-  transform: rotate(-90deg);
-}
-
-.wrapper {
-  &__wind {
-    gap: 4px;
-    font-size: 14px;
-  }
-}
-</style>

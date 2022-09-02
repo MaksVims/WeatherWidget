@@ -17,19 +17,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style lang="scss">
-.input {
-  outline: none;
-  width: 100%;
-  border: 1px solid grey;
-  padding: 6px;
-  color: black;
-  border-radius: 3px;
-  background: white;
-
-  &:focus {
-    border: 1px solid rgb(64, 168, 202);
-  }
-}
-</style>
