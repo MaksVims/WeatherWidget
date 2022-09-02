@@ -4,14 +4,16 @@
     :list="cities"
     :move="handleMove"
   >
-    <CityItem
-      v-for="city of cities"
-      :key="city.id"
-      :city="city"
-      @remove="(id) => $emit('remove', id)"
-      @dragon="isDrag = true"
-      @dragoff="isDrag = false"
-    />
+    <TransitionGroup name="city-list">
+      <CityItem
+        v-for="city of cities"
+        :key="city.id"
+        :city="city"
+        @remove="(id) => $emit('remove', id)"
+        @dragon="isDrag = true"
+        @dragoff="isDrag = false"
+      />
+    </TransitionGroup>
   </draggable>
 </template>
 

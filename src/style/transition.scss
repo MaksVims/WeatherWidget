@@ -36,3 +36,13 @@
 .settings-leave-to {
   opacity: 0;
 }
+
+.city-list-enter-active,
+.city-list-leave-active {
+  transition: all 0.5s ease;
+}
+
+.city-list-enter-from,
+.city-list-leave-to {
+  opacity: 0;
+}

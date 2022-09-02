@@ -30,6 +30,7 @@ import { WeatherService } from "./api";
 import Weather from "./components/Weather/Weather.vue";
 import HeaderOptions from "./components/Weather/HeaderOptions.vue";
 import Settings from "./components/Settings/Settings.vue";
+import { errors } from "@/consts/errors";
 
 export default defineComponent({
   name: "weather-widget",
@@ -87,9 +88,16 @@ export default defineComponent({
         const newLocation = await WeatherService.getCityWeatherByLocationName(
           location
         );
+        if (this.citiesWeather.find((city) => city.id === newLocation.id)) {
+          throw new Error(errors.REPEAT_CITY);
+        }
         this.citiesWeather.push(newLocation);
       } catch (e) {
-        this.error = "Uncorrected location name";
+        if ((e as Error).message === errors.REPEAT_CITY) {
+          this.error = errors.REPEAT_CITY;
+        } else {
+          this.error = errors.UNCORRECT_CITY;
+        }
       }
     },
   },
