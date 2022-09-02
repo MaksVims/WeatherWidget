@@ -37,7 +37,7 @@ export default defineComponent({
   data() {
     return {
       citiesWeather: [] as cityWeather[],
-      checkStorage: true,
+      checkStorage: false,
       isSetting: false,
       error: "",
     };
@@ -55,13 +55,14 @@ export default defineComponent({
   },
   watch: {
     checkStorage() {
-      if (this.citiesWeather.length) {
-      } else {
+      if (!this.citiesWeather.length) {
         navigator.geolocation.getCurrentPosition(async (position) => {
           const currentGeo: cityGeo = {
             lat: position.coords.latitude,
             lon: position.coords.longitude,
           };
+          console.log('!');
+          
           const currentWeather = await WeatherService.getCityWeatherByGeo(
             currentGeo
           );
