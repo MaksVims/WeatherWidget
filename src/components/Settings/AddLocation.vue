@@ -3,7 +3,7 @@
     <label class="add-location">
       <span class="add-location__title">Add Location:</span>
       <div class="add-location__inner">
-        <AppInput v-model="name" @keyup.enter="handleAddLocation" />
+        <AppInput v-model="location" @keyup.enter="handleAddLocation" v-focus/>
         <svg
           @click="handleAddLocation"
           class="add-location__icon"
@@ -48,20 +48,34 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import AppInput from "./UI/AppInput.vue";
+import AppInput from "../UI/AppInput.vue";
+import { focus } from "@/directives/focus";
 
 export default defineComponent({
   name: "AddLocation",
   components: { AppInput },
+  directives: {
+    'focus': focus
+  },
   data() {
     return {
-      name: "",
+      location: "",
     };
   },
   methods: {
     handleAddLocation() {
-      console.log(this.name);
+      if (this.location) {
+        this.$emit("add-location", this.location);
+        this.location = "";
+      }
     },
   },
+  watch: {
+    location() {
+      if(this.location) {
+        this.$emit('clear-er')
+      }
+    }
+  }
 });
 </script>

@@ -11,9 +11,18 @@ export class WeatherService {
     return response.data[0]
   }
 
-  static async getCityWeather(geo: cityGeo) {
+  static async getCityWeatherByGeo(geo: cityGeo) {
     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${geo.lat}&lon=${geo.lon}&appid=${WeatherService.key}`
     const response = await axios.get<cityWeather>(url)
     return response.data
+  }
+
+  static async getCityWeatherByLocationName(location: string) {
+    const geo = await WeatherService.getCityGeo(location)
+    return await WeatherService.getCityWeatherByGeo(geo)
+  }
+
+  static async getManyWeatherCities(cities: cityWeather[]) {
+    return Promise.all([...cities.map(city => WeatherService.getCityWeatherByGeo(city.coord))])
   }
 }

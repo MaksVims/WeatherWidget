@@ -1,9 +1,9 @@
 <template>
-  <section>
+  <section @keydown.esc="closeSettings">
     <div class="settings__header">
       <h1>Settings</h1>
       <svg
-        @click="$emit('update:modelValue', false)"
+        @click="closeSettings"
         class="icon"
         width="24px"
         height="24px"
@@ -25,8 +25,20 @@
         </g>
       </svg>
     </div>
-    <CityList class="settings__city-list" :cities="cities" />
-    <AddLocation />
+    <CityList
+      v-if="cities.length"
+      class="settings__city-list"
+      :cities="cities"
+      @remove="(id) => $emit('remove', id)"
+    />
+    <div class="aggregate aggregate__settings" v-else>
+      <p>Empty list</p>
+    </div>
+    <AddLocation
+      @add-location="(location) => $emit('add-location', location)"
+      @clear-er="$emit('clear-er')"
+    />
+    <p class="error" v-if="error">{{ error }}</p>
   </section>
 </template>
 
@@ -48,6 +60,13 @@ export default defineComponent({
       type: Array as PropType<cityWeather[]>,
       default: () => [],
     },
+    error: String,
   },
+  methods: {
+    closeSettings() {
+      this.$emit("clear-er");
+      this.$emit("update:modelValue", false);
+    },
+  }
 });
 </script>

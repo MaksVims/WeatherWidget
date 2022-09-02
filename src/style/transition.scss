@@ -1,0 +1,38 @@
+.weather-enter-active,
+.weather-leave-active {
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.weather-enter-from,
+.weather-leave-to {
+  opacity: 0;
+}
+
+.weather-enter-from {
+  transform: translateY(-200%);
+  position: absolute;
+  width: 220px;
+  left: 10px;
+  top: 10px;
+}
+
+.settings-enter-active,
+.settings-leave-active {
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.settings-enter-from {
+  transform: translateX(+200%);
+}
+
+.settings-enter-active {
+  position: absolute;
+  width: 220px;
+  left: 10px;
+  top: 10px;
+}
+
+.settings-enter-from,
+.settings-leave-to {
+  opacity: 0;
+}

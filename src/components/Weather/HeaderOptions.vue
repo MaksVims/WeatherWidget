@@ -71,6 +71,7 @@ export default defineComponent({
   },
   methods: {
     changeMode() {
+      this.$emit('clear-er')
       this.$emit("update:modelValue", true);
     },
   },
