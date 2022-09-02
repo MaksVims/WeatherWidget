@@ -61,8 +61,6 @@ export default defineComponent({
             lat: position.coords.latitude,
             lon: position.coords.longitude,
           };
-          console.log('!');
-          
           const currentWeather = await WeatherService.getCityWeatherByGeo(
             currentGeo
           );
