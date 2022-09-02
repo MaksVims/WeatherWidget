@@ -1,19 +1,6 @@
 # weather-widget
 
-## Project setup
-```
-yarn install
-```
+Виджет погоды, для встраивания в html страницу как тег.
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+<weather-widget></weather-widget>
 
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
