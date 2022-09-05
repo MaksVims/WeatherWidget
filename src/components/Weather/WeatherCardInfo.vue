@@ -6,37 +6,25 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { cityWeather } from "@/types";
-import { defineComponent, PropType } from "vue";
+import { computed } from "@vue/runtime-core";
 
-export default defineComponent({
-  name: "WeatherCardInfo",
-  props: {
-    city: {
-      type: Object as PropType<cityWeather>,
-      required: true,
-    },
-    celsius: {
-      type: Number,
-      default: () => 0,
-    },
-  },
-  methods: {
-    helper(T: number, Rh: number) {
-      return (17.27 * T) / (237.7 + T) + Math.log(Rh / 100);
-    },
-  },
-  computed: {
-    visibility() {
-      return (this.city.visibility / 1000).toFixed(1);
-    },
-    dewPoint() {
-      return (
-        (237.7 * this.helper(this.celsius, this.city.main.humidity)) /
-        (17.27 - this.helper(this.celsius, this.city.main.humidity))
-      ).toFixed(0);
-    },
-  },
+interface Props {
+  city: cityWeather;
+  celsius: number;
+}
+const { city, celsius = 0 } = defineProps<Props>();
+
+const fN = (T: number, Rh: number) => {
+  return (17.27 * T) / (237.7 + T) + Math.log(Rh / 100);
+};
+
+const visibility = computed(() => (city.visibility / 1000).toFixed(1));
+const dewPoint = computed(() => {
+  return (
+    (237.7 * fN(celsius, city.main.humidity)) /
+    (17.27 - fN(celsius, city.main.humidity))
+  ).toFixed(0);
 });
 </script>

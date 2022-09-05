@@ -3,6 +3,7 @@
     class="dragArea list-group w-full"
     :list="cities"
     :move="handleMove"
+    @change="handleChangeOrder"
   >
     <TransitionGroup name="city-list">
       <CityItem
@@ -17,32 +18,29 @@
   </draggable>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
+import { CHANGE_ORDER_CITIES_LIST } from "@/injectKeys";
 import { cityWeather } from "@/types";
-import { defineComponent, PropType } from "vue";
-import { VueDraggableNext } from "vue-draggable-next";
+import { inject, ref, watch } from "vue";
+import { VueDraggableNext as draggable } from "vue-draggable-next";
 import CityItem from "./CityItem.vue";
 
-export default defineComponent({
-  name: "CityList",
-  components: { draggable: VueDraggableNext, CityItem },
-  props: {
-    cities: {
-      type: Array as PropType<cityWeather[]>,
-      default: () => [],
-    },
-  },
-  data() {
-    return {
-      isDrag: false,
-    };
-  },
-  methods: {
-    handleMove() {
-      if (!this.isDrag) {
-        return false;
-      }
-    },
-  },
-});
+interface Props {
+  cities: cityWeather[];
+}
+
+defineProps<Props>();
+const isDrag = ref(false);
+
+const injections = inject(CHANGE_ORDER_CITIES_LIST);
+
+const handleMove = () => {
+  if (!isDrag.value) {
+    return false;
+  }
+};
+
+const handleChangeOrder = () => {
+  if (injections) injections();
+};
 </script>

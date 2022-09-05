@@ -36,37 +36,32 @@
     </div>
     <AddLocation
       @add-location="(location) => $emit('add-location', location)"
-      @clear-er="$emit('clear-er')"
     />
-    <p class="error" v-if="error">{{ error }}</p>
+    <p class="error" v-if="injections?.error">{{ injections.error }}</p>
   </section>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { cityWeather } from "@/types";
-import { defineComponent, PropType } from "vue";
+import { ERROR_KEY } from "@/injectKeys";
 import CityList from "./CityList.vue";
 import AddLocation from "./AddLocation.vue";
+import { inject } from "@vue/runtime-core";
 
-export default defineComponent({
-  name: "Settings",
-  components: { CityList, AddLocation },
-  props: {
-    modelValue: {
-      type: Boolean,
-      defalt: () => "",
-    },
-    cities: {
-      type: Array as PropType<cityWeather[]>,
-      default: () => [],
-    },
-    error: String,
-  },
-  methods: {
-    closeSettings() {
-      this.$emit("clear-er");
-      this.$emit("update:modelValue", false);
-    },
-  }
-});
+interface Props {
+  modelValue: Boolean;
+  cities: cityWeather[];
+}
+defineProps<Props>();
+
+const emit = defineEmits<{
+  (e: "update:modelValue", value: Boolean): void;
+}>();
+
+const injections = inject(ERROR_KEY);
+
+const closeSettings = () => {
+  injections?.resetError();
+  emit("update:modelValue", false);
+};
 </script>

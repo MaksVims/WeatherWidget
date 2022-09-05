@@ -58,22 +58,19 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script lang="ts" setup>
+interface Props {
+  modelValue: Boolean;
+}
+defineProps<Props>();
 
-export default defineComponent({
-  name: "HeaderOptions",
-  props: {
-    modelValue: {
-      type: Boolean,
-      required: true,
-    },
-  },
-  methods: {
-    changeMode() {
-      this.$emit('clear-er')
-      this.$emit("update:modelValue", true);
-    },
-  },
-});
+const emit = defineEmits<{
+  (e: "clear-er"): void;
+  (e: "update:modelValue", value: boolean): void;
+}>();
+
+const changeMode = () => {
+  emit("clear-er");
+  emit("update:modelValue", true);
+};
 </script>

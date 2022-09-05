@@ -16,92 +16,85 @@
         v-model="isSetting"
         @remove="removeItem"
         @add-location="addLocation"
-        :error="error"
-        @clear-er="error = ''"
       />
     </Transition>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script lang="ts" setup>
 import { cityWeather, cityGeo } from "./types";
+import { ERROR_KEY, CHANGE_ORDER_CITIES_LIST } from "./injectKeys";
+import { reactive, readonly, ref } from "@vue/reactivity";
+import { onMounted, provide, watch} from "@vue/runtime-core";
 import { WeatherService } from "./api";
 import Weather from "./components/Weather/Weather.vue";
 import HeaderOptions from "./components/Weather/HeaderOptions.vue";
 import Settings from "./components/Settings/Settings.vue";
 import { errors } from "@/consts/errors";
 
-export default defineComponent({
-  name: "weather-widget",
-  components: { Settings, Weather, HeaderOptions },
-  data() {
-    return {
-      citiesWeather: [] as cityWeather[],
-      checkStorage: false,
-      isSetting: false,
-      error: "",
-    };
-  },
-  async mounted() {
-    const data = localStorage.getItem("cities-weather");
-    if (data) {
-      this.citiesWeather = JSON.parse(data);
-      const newDataWeathers = await WeatherService.getManyWeatherCities(
-        this.citiesWeather
-      );
-      this.citiesWeather = newDataWeathers;
-    }
-    this.checkStorage = true;
-  },
-  watch: {
-    checkStorage() {
-      if (!this.citiesWeather.length) {
-        navigator.geolocation.getCurrentPosition(async (position) => {
-          const currentGeo: cityGeo = {
-            lat: position.coords.latitude,
-            lon: position.coords.longitude,
-          };
-          const currentWeather = await WeatherService.getCityWeatherByGeo(
-            currentGeo
-          );
-          this.citiesWeather.push(currentWeather);
-        });
-      }
-    },
-    citiesWeather: {
-      handler() {
-        localStorage.setItem(
-          "cities-weather",
-          JSON.stringify(this.citiesWeather)
-        );
-      },
-      deep: true,
-    },
-  },
-  methods: {
-    removeItem(id: number) {
-      this.citiesWeather = this.citiesWeather.filter((city) => city.id !== id);
-    },
-    async addLocation(location: string) {
-      try {
-        const newLocation = await WeatherService.getCityWeatherByLocationName(
-          location
-        );
-        if (this.citiesWeather.find((city) => city.id === newLocation.id)) {
-          throw new Error(errors.REPEAT_CITY);
-        }
-        this.citiesWeather.push(newLocation);
-      } catch (e) {
-        if ((e as Error).message === errors.REPEAT_CITY) {
-          this.error = errors.REPEAT_CITY;
-        } else {
-          this.error = errors.UNCORRECT_CITY;
-        }
-      }
-    },
-  },
+const citiesWeather = ref<cityWeather[]>([]);
+const checkStorage = ref(false);
+const isSetting = ref(false);
+const error = ref<string | null>(null);
+
+const resetError = () => (error.value = null);
+provide(ERROR_KEY, readonly({ error, resetError }));
+
+const changeOrderCities = () => citiesWeather.value = [...citiesWeather.value]
+provide(CHANGE_ORDER_CITIES_LIST, changeOrderCities)
+
+onMounted(async () => {
+  const data = localStorage.getItem("cities-weather");
+  if (data) {
+    citiesWeather.value = JSON.parse(data);
+    const newDataWeathers = await WeatherService.getManyWeatherCities(
+      citiesWeather.value
+    );
+    citiesWeather.value = newDataWeathers;
+  }
+  checkStorage.value = true;
 });
+
+watch(checkStorage, () => {
+  if (!citiesWeather.value.length) {
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      const currentGeo: cityGeo = {
+        lat: position.coords.latitude,
+        lon: position.coords.longitude,
+      };
+      const currentWeather = await WeatherService.getCityWeatherByGeo(
+        currentGeo
+      );
+      citiesWeather.value.push(currentWeather);
+    });
+  }
+});
+
+watch(citiesWeather, () => {
+  localStorage.setItem("cities-weather", JSON.stringify(citiesWeather.value));
+});
+
+const removeItem = (id: number) => {
+  citiesWeather.value = citiesWeather.value.filter((city) => city.id !== id);
+};
+
+const addLocation = async (location: string) => {
+  try {
+    const newLocation = await WeatherService.getCityWeatherByLocationName(
+      location
+    );
+    if (citiesWeather.value.find((city) => city.id === newLocation.id)) {
+      throw new Error(errors.REPEAT_CITY);
+    }
+    citiesWeather.value = [...citiesWeather.value, newLocation]
+  } catch (e) {
+    if ((e as Error).message === errors.REPEAT_CITY) {
+      error.value = errors.REPEAT_CITY;
+    } else {
+      error.value = errors.UNCORRECT_CITY;
+    }
+  }
+};
 </script>
 
 <style lang="scss">

@@ -4,16 +4,12 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from "vue";
+<script lang="ts" setup>
 import { cityWeather } from "@/types";
 import WeatherCard from "./WeatherCard.vue";
 
-export default defineComponent({
-  name: "Weather",
-  components: { WeatherCard },
-  props: {
-    citiesWeather: Array as PropType<cityWeather[]>,
-  },
-});
+interface Props {
+  citiesWeather: cityWeather[];
+}
+defineProps<Props>();
 </script>

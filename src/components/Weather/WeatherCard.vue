@@ -20,39 +20,22 @@
   </section>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from "vue";
+<script setup lang="ts">
 import { cityWeather } from "@/types";
 import WindPressureInfoVue from "./WindPressureInfo.vue";
 import WeatherCardInfo from "./WeatherCardInfo.vue";
+import { computed } from "@vue/runtime-core";
 
-export default defineComponent({
-  name: "WeatherCard",
-  components: {
-    WindPressureInfoVue,
-    WeatherCardInfo,
-  },
-  props: {
-    city: {
-      type: Object as PropType<cityWeather>,
-      required: true,
-    },
-  },
-  methods: {
-    getCelcius(temp: number) {
-      return Math.ceil(temp - 273.15);
-    },
-  },
-  computed: {
-    celsius() {
-      return this.getCelcius(this.city.main.temp);
-    },
-    feelsLike() {
-      return this.getCelcius(this.city.main.feels_like);
-    },
-    srcIcon() {
-      return `https://openweathermap.org/img/wn/${this.city.weather[0].icon}@2x.png`;
-    },
-  },
-});
+interface Props {
+  city: cityWeather;
+}
+const { city } = defineProps<Props>();
+
+const getCelcius = (temp: number) => Math.ceil(temp - 273.15);
+
+const celsius = computed(() => getCelcius(city.main.temp));
+const feelsLike = computed(() => getCelcius(city.main.feels_like));
+const srcIcon = computed(
+  () => `https://openweathermap.org/img/wn/${city.weather[0].icon}@2x.png`
+);
 </script>

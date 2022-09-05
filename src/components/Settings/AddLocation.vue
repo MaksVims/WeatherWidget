@@ -46,36 +46,28 @@
   </form>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script lang="ts" setup>
+import { ERROR_KEY } from "@/injectKeys";
+import { inject, ref, watch } from "vue";
+import { focus as vFocus } from "@/directives/focus";
 import AppInput from "../UI/AppInput.vue";
-import { focus } from "@/directives/focus";
 
-export default defineComponent({
-  name: "AddLocation",
-  components: { AppInput },
-  directives: {
-    'focus': focus
-  },
-  data() {
-    return {
-      location: "",
-    };
-  },
-  methods: {
-    handleAddLocation() {
-      if (this.location) {
-        this.$emit("add-location", this.location);
-        this.location = "";
-      }
-    },
-  },
-  watch: {
-    location() {
-      if(this.location) {
-        this.$emit('clear-er')
-      }
-    }
+const emit = defineEmits<{
+  (e: 'add-location', value: string): void,
+}>()
+
+const location = ref('')
+const handleAddLocation = () => {
+  if(location.value) {
+    emit('add-location', location.value)
+    location.value = ''
   }
-});
+}
+
+const injections = inject(ERROR_KEY)
+watch(location, () => {
+  if(location.value && injections?.error) {
+    injections.resetError()
+  }
+})
 </script>

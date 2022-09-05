@@ -72,20 +72,12 @@
   </article>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from "vue";
+<script lang="ts" setup>
 import { cityWeather } from "@/types";
 
-export default defineComponent({
-  name: "CityItem",
-  props: {
-    city: {
-      type: Object as PropType<cityWeather>,
-      required: true,
-    },
-  },
-  methods: {
+interface Props {
+  city: cityWeather
+}
 
-  },
-});
+defineProps<Props>()
 </script>
