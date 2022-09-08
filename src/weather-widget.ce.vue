@@ -10,7 +10,7 @@
       </div>
     </Transition>
     <Transition name="settings">
-      <Settings
+      <AsyncSettings
         v-if="isSetting"
         :cities="citiesWeather"
         v-model="isSetting"
@@ -25,12 +25,14 @@
 import { cityWeather, cityGeo } from "./types";
 import { ERROR_KEY, CHANGE_ORDER_CITIES_LIST } from "./injectKeys";
 import { reactive, readonly, ref } from "@vue/reactivity";
-import { onMounted, provide, watch} from "@vue/runtime-core";
+import { defineAsyncComponent, onMounted, provide, watch} from "@vue/runtime-core";
 import { WeatherService } from "./api";
 import Weather from "./components/Weather/Weather.vue";
 import HeaderOptions from "./components/Weather/HeaderOptions.vue";
 import Settings from "./components/Settings/Settings.vue";
 import { errors } from "@/consts/errors";
+
+const AsyncSettings = defineAsyncComponent(() => import('@/components/Settings/Settings.vue'))
 
 const citiesWeather = ref<cityWeather[]>([]);
 const checkStorage = ref(false);
